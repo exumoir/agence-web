@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCraft AI Studio - Agence Web Nouvelle Génération</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00f0ff;
+            --secondary: #ff00ea;
+            --accent: #ffd700;
+            --dark: #0a0a0a;
+            --dark-alt: #1a1a2e;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Curseur personnalisé */
+        body { cursor: none; }
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            mix-blend-mode: difference;
+        }
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #00f0ff 0%, #ff00ea 50%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            animation: gradient 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 100px 50px;
+            background: var(--dark-alt);
+        }
+
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 50px;
+            background: var(--dark);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            background: linear-gradient(135deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            padding: 10px 0;
+            color: rgba(255, 255, 255, 0.6);
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Blog Section */
+        .blog {
+            padding: 100px 50px;
+            background: var(--dark-alt);
+        }
+
+        .blog-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.2);
+        }
+
+        .blog-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .blog-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 20px;
+            background: rgba(0, 240, 255, 0.9);
+            color: var(--dark);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .blog-content {
+            padding: 35px;
+        }
+
+        .blog-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 15px;
+        }
+
+        .blog-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .blog-card p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: gap 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 15px;
+        }
+
+        /* Technologies Section */
+        .technologies {
+            padding: 100px 50px;
+            background: var(--dark);
+        }
+
+        .tech-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+        }
+
+        .tech-item {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .tech-item h4 {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 50px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(255, 0, 234, 0.1));
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 30px;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 50px 40px;
+            background: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 2;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .blog-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                height: auto;
+                min-height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">WebCraft AI Studio</div>
+            <ul class="nav-links">
+                <li><a href="#home">Accueil</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#technologies">Technologies</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <canvas id="particleCanvas"></canvas>
+        <div class="hero-content">
+            <h1>L'IA au Service de Votre Vision Web</h1>
+            <p class="hero-subtitle">Agence de Création Web Propulsée par l'Intelligence Artificielle</p>
+            <p>Nous créons des expériences web exceptionnelles en combinant design moderne, intelligence artificielle et performance optimale. Transformez vos idées en réalité digitale.</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Démarrer votre projet</a>
+                <a href="#services" class="btn btn-secondary">Découvrir nos services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="150">0</div>
+                <div class="stat-label">Projets réalisés</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="98">0</div>
+                <div class="stat-label">% Satisfaction client</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">Heures support/7j</div>
+            </div>
+            <div class="stat-item fade-in">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Technologies maîtrisées</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2 class="section-title">Nos Services Premium</h2>
+            <p class="section-subtitle">Des solutions complètes pour propulser votre présence digitale</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-icon">🚀</div>
+                <h3>Sites Web Intelligents</h3>
+                <p>Création de sites web modernes intégrant l'IA pour une expérience utilisateur personnalisée et des performances exceptionnelles.</p>
+                <ul class="service-features">
+                    <li>Design responsive et moderne</li>
+                    <li>Intégration d'IA conversationnelle</li>
+                    <li>Optimisation SEO avancée</li>
+                    <li>Performance 100/100 PageSpeed</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">🤖</div>
+                <h3>Applications IA</h3>
+                <p>Développement d'applications web propulsées par l'IA : chatbots, générateurs de contenu, assistants virtuels personnalisés.</p>
+                <ul class="service-features">
+                    <li>Intégration Claude AI & GPT-4</li>
+                    <li>Automatisation intelligente</li>
+                    <li>Analyse de données par IA</li>
+                    <li>Solutions sur mesure</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">⚡</div>
+                <h3>E-commerce Next-Gen</h3>
+                <p>Boutiques en ligne de nouvelle génération avec recommandations IA, chatbots d'assistance et analyse prédictive.</p>
+                <ul class="service-features">
+                    <li>Recommandations personnalisées</li>
+                    <li>Gestion intelligente des stocks</li>
+                    <li>Paiements sécurisés</li>
+                    <li>Analytics avancés</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">🎨</div>
+                <h3>Design UX/UI</h3>
+                <p>Interfaces utilisateur exceptionnelles créées avec l'aide de l'IA pour analyser le comportement utilisateur et optimiser l'expérience.</p>
+                <ul class="service-features">
+                    <li>Prototypage rapide</li>
+                    <li>Tests utilisateurs IA</li>
+                    <li>Design System complet</li>
+                    <li>Accessibilité WCAG</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">📱</div>
+                <h3>Applications Web Progressives</h3>
+                <p>PWAs modernes offrant une expérience native sur tous les appareils avec fonctionnalités offline et notifications.</p>
+                <ul class="service-features">
+                    <li>Expérience app mobile</li>
+                    <li>Mode hors-ligne</li>
+                    <li>Notifications push</li>
+                    <li>Installation sur écran d'accueil</li>
+                </ul>
+            </div>
+
+            <div class="service-card fade-in">
+                <div class="service-icon">🔧</div>
+                <h3>Maintenance & Support</h3>
+                <p>Support technique continu, mises à jour régulières et optimisation permanente de vos plateformes web.</p>
+                <ul class="service-features">
+                    <li>Monitoring 24/7</li>
+                    <li>Sauvegardes automatiques</li>
+                    <li>Mises à jour sécurité</li>
+                    <li>Support prioritaire</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog -->
+    <section class="blog" id="blog">
+        <div class="section-header">
+            <h2 class="section-title">Actualités & Tendances</h2>
+            <p class="section-subtitle">Restez à la pointe de l'innovation web et de l'intelligence artificielle</p>
+        </div>
+        <div class="blog-grid">
+            <article class="blog-card fade-in">
+                <div class="blog-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <span class="blog-category">IA</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">6 Février 2026</div>
+                    <h3>Claude Sonnet 4.5 : La Révolution de l'IA Conversationnelle</h3>
+                    <p>Anthropic vient de lancer Claude Sonnet 4.5, un modèle qui redéfinit les standards de l'IA conversationnelle. Avec une fenêtre de contexte étendue et des capacités de raisonnement améliorées, ce modèle ouvre de nouvelles possibilités pour les applications web intelligentes...</p>
+                    <a href="#" class="read-more">Lire l'article →</a>
+                </div>
+            </article>
+
+            <article class="blog-card fade-in">
+                <div class="blog-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <span class="blog-category">Développement</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">4 Février 2026</div>
+                    <h3>React 19 & Next.js 15 : Les Nouvelles Fonctionnalités Incontournables</h3>
+                    <p>La sortie de React 19 avec le compilateur React Compiler et Next.js 15 avec Turbopack en production marque un tournant majeur. Découvrez comment ces technologies transforment le développement web moderne avec des performances jusqu'à 700% plus rapides...</p>
+                    <a href="#" class="read-more">Lire l'article →</a>
+                </div>
+            </article>
+
+            <article class="blog-card fade-in">
+                <div class="blog-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <span class="blog-category">Design</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">1 Février 2026</div>
+                    <h3>Design Génératif : L'IA Midjourney V7 pour Créer des Interfaces</h3>
+                    <p>Midjourney V7 révolutionne la création d'interfaces utilisateur. Les designers peuvent désormais générer des maquettes haute-fidélité en quelques secondes, accélérant considérablement le processus créatif tout en maintenant une qualité exceptionnelle...</p>
+                    <a href="#" class="read-more">Lire l'article →</a>
+                </div>
+            </article>
+
+            <article class="blog-card fade-in">
+                <div class="blog-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <span class="blog-category">Performance</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">29 Janvier 2026</div>
+                    <h3>Core Web Vitals 2026 : Optimisez pour l'INP et le TTFB</h3>
+                    <p>Google met à jour ses Core Web Vitals avec l'Interaction to Next Paint (INP) remplaçant le FID. Découvrez nos techniques pour atteindre un score parfait : lazy loading intelligent, code splitting avancé, et optimisation des assets...</p>
+                    <a href="#" class="read-more">Lire l'article →</a>
+                </div>
+            </article>
+
+            <article class="blog-card fade-in">
+                <div class="blog-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <span class="blog-category">IA Générative</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">25 Janvier 2026</div>
+                    <h3>Intégrer GPT-4 Turbo dans Vos Applications Web</h3>
+                    <p>Guide complet pour implémenter GPT-4 Turbo dans vos projets web. De la configuration API aux meilleures pratiques de prompt engineering, en passant par la gestion des coûts et l'optimisation des réponses pour des applications professionnelles...</p>
+                    <a href="#" class="read-more">Lire l'article →</a>
+                </div>
+            </article>
+
+            <article class="blog-card fade-in">
+                <div class="blog-image" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <span class="blog-category">Sécurité</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-date">20 Janvier 2026</div>
+                    <h3>Sécurité Web 2026 : Protection contre les Attaques IA</h3>
+                    <p>Avec l'émergence des attaques automatisées par IA, la sécurité web évolue. Découvrez les nouvelles techniques de protection : détection d'anomalies par ML, authentification biométrique avancée, et chiffrement post-quantique...</p>
+                    <a href="#" class="read-more">Lire l'article →</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Technologies -->
+    <section class="technologies" id="technologies">
+        <div class="section-header">
+            <h2 class="section-title">Technologies Maîtrisées</h2>
+            <p class="section-subtitle">Stack technologique de pointe pour des solutions performantes</p>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-item fade-in">
+                <div class="tech-icon">⚛️</div>
+                <h4>React 19</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">▲</div>
+                <h4>Next.js 15</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🎨</div>
+                <h4>Tailwind CSS</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">📘</div>
+                <h4>TypeScript</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🤖</div>
+                <h4>Claude AI</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🧠</div>
+                <h4>GPT-4</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🟢</div>
+                <h4>Node.js</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🐍</div>
+                <h4>Python</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🔥</div>
+                <h4>Firebase</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🗄️</div>
+                <h4>PostgreSQL</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">🐳</div>
+                <h4>Docker</h4>
+            </div>
+            <div class="tech-item fade-in">
+                <div class="tech-icon">☁️</div>
+                <h4>AWS / Vercel</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <h2>Prêt à Propulser Votre Projet ?</h2>
+        <p>Discutons de votre vision et créons ensemble une solution web exceptionnelle propulsée par l'intelligence artificielle.</p>
+        <div class="cta-buttons">
+            <a href="mailto:contact@webcraft-ai.studio" class="btn btn-primary">Contactez-nous</a>
+            <a href="#" class="btn btn-secondary">Voir notre portfolio</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>WebCraft AI Studio</h3>
+                <p>Agence de création web nouvelle génération, spécialisée dans l'intégration de l'intelligence artificielle pour des solutions digitales innovantes.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Création de sites web</a></li>
+                    <li><a href="#">Applications IA</a></li>
+                    <li><a href="#">E-commerce</a></li>
+                    <li><a href="#">Design UX/UI</a></li>
+                    <li><a href="#">Consulting IA</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Ressources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Guides</a></li>
+                    <li><a href="#">Études de cas</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:contact@webcraft-ai.studio">contact@webcraft-ai.studio</a></li>
+                    <li><a href="tel:+33123456789">+33 1 23 45 67 89</a></li>
+                    <li>Grenoble, France</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 WebCraft AI Studio - Créé avec passion et intelligence artificielle ✨</p>
+        </div>
+    </footer>
+
+    <script>
+        // Curseur personnalisé
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            setTimeout(() => {
+                cursorFollower.style.transform = `translate(${e.clientX - 20}px, ${e.clientY - 20}px)`;
+            }, 100);
+        });
+
+        // Animation de particules
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) {
+                        ctx.strokeStyle = `rgba(0, 240, 255, ${1 - distance / 150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Compteurs animés
+        const animateCounter = (element) => {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = target + (element.parentElement.textContent.includes('%') ? '' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        };
+
+        // Intersection Observer pour animations au scroll
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animer les compteurs
+                    if (entry.target.classList.contains('stat-item')) {
+                        const counter = entry.target.querySelector('.stat-number');
+                        if (counter && !counter.classList.contains('animated')) {
+                            counter.classList.add('animated');
+                            animateCounter(counter);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        document.querySelectorAll('.stat-item').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
